@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Work Place</title>
+  <style>
+    /* Dark theme styles */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #1f1f1f;
+      color: #fff;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: #303030;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #fff;
+      margin-top: 0;
+    }
+    .settings-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      border: none;
+      background-color: transparent;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .settings {
+      display: none;
+      background-color: #303030;
+      border-radius: 5px;
+      padding: 10px;
+      position: absolute;
+      top: 60px;
+      right: 10px;
+      z-index: 1;
+    }
+    .settings.active {
+      display: block;
+    }
+    .settings label,
+    .settings select {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .settings .theme-toggle-label {
+      display: flex;
+      align-items: center;
+    }
+    .theme-toggle-label span {
+      margin-right: 5px;
+    }
+    .theme-toggle {
+      transform: scale(1.5);
+      margin-right: 5px;
+    }
+    .row-select {
+      width: 100%;
+      padding: 5px;
+      border-radius: 5px;
+      border: none;
+      background-color: #303030;
+      color: #fff;
+    }
+    .light-theme {
+      background-color: #f1f1f1;
+      color: #000;
+    }
+    form {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1f1f1f;
+      color: #fff;
+      margin-right: 10px;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .bookmark-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 10px;
+    }
+    .bookmark-button {
+      background-color: #303030;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .bookmark-button:hover {
+      transform: translateY(-5px);
+    }
+    .bookmark-button img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+    .bookmark-info {
+      flex: 1;
+    }
+    .bookmark-url {
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    .remove-button {
+      background-color: transparent;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>WorkPlace</h1>
+    <button id="settingsButton" class="settings-button" title="Settings">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 122.88 122.878" enable-background="new 0 0 122.88 122.878" xml:space="preserve">
+  <g>
+    <path fill="#FFFFFF" fill-rule="evenodd" clip-rule="evenodd" d="M101.589,14.7l8.818,8.819c2.321,2.321,2.321,6.118,0,8.439l-7.101,7.101 c1.959,3.658,3.454,7.601,4.405,11.752h9.199c3.283,0,5.969,2.686,5.969,5.968V69.25c0,3.283-2.686,5.969-5.969,5.969h-10.039 c-1.231,4.063-2.992,7.896-5.204,11.418l6.512,6.51c2.321,2.323,2.321,6.12,0,8.44l-8.818,8.819c-2.321,2.32-6.119,2.32-8.439,0 l-7.102-7.102c-3.657,1.96-7.601,3.456-11.753,4.406v9.199c0,3.282-2.685,5.968-5.968,5.968H53.629 c-3.283,0-5.969-2.686-5.969-5.968v-10.039c-4.063-1.232-7.896-2.993-11.417-5.205l-6.511,6.512c-2.323,2.321-6.12,2.321-8.441,0 l-8.818-8.818c-2.321-2.321-2.321-6.118,0-8.439l7.102-7.102c-1.96-3.657-3.456-7.6-4.405-11.751H5.968 C2.686,72.067,0,69.382,0,66.099V53.628c0-3.283,2.686-5.968,5.968-5.968h10.039c1.232-4.063,2.993-7.896,5.204-11.418l-6.511-6.51 c-2.321-2.322-2.321-6.12,0-8.44l8.819-8.819c2.321-2.321,6.118-2.321,8.439,0l7.101,7.101c3.658-1.96,7.601-3.456,11.753-4.406 V5.969C50.812,2.686,53.498,0,56.78,0h12.471c3.282,0,5.968,2.686,5.968,5.969v10.036c4.064,1.231,7.898,2.992,11.422,5.204 l6.507-6.509C95.471,12.379,99.268,12.379,101.589,14.7L101.589,14.7z M61.44,36.92c13.54,0,24.519,10.98,24.519,24.519 c0,13.538-10.979,24.519-24.519,24.519c-13.539,0-24.519-10.98-24.519-24.519C36.921,47.9,47.901,36.92,61.44,36.92L61.44,36.92z"/>
+  </g>
+</svg>
+    </button>
+    <div id="settings" class="settings">
+      <label>
+        <div class="theme-toggle-label">
+          <span>Light Theme</span>
+          <input id="themeToggle" class="theme-toggle" type="checkbox">
+        </div>
+      </label>
+      <label>
+        Rows per page:
+        <select id="rowSelect" class="row-select">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </label>
+    </div>
+    <form id="bookmarkForm">
+      <input type="text" id="urlInput" placeholder="Enter URL">
+      <input type="submit" value="Add Bookmark">
+    </form>
+    <div class="bookmark-buttons" id="bookmarkButtons"></div>
+  </div>
+  <script>
+    // Array to store the bookmarked URLs
+    var bookmarks = [];
+
+    // Function to generate buttons for each bookmarked URL
+    function generateButtons() {
+      var bookmarkButtons = document.getElementById("bookmarkButtons");
+      bookmarkButtons.innerHTML = "";
+
+      for (var i = 0; i < bookmarks.length; i++) {
+        var url = bookmarks[i].url;
+        var logo = "https://www.google.com/s2/favicons?sz=64&domain=" + extractHostname(url);
+
+        var button = document.createElement("div");
+        button.className = "bookmark-button";
+
+        var logoImage = document.createElement("img");
+        logoImage.src = logo;
+        logoImage.alt = "Website Logo";
+        logoImage.width = 40;
+        logoImage.height = 40;
+        button.appendChild(logoImage);
+
+        var bookmarkInfo = document.createElement("div");
+        bookmarkInfo.className = "bookmark-info";
+
+        var bookmarkURL = document.createElement("p");
+        bookmarkURL.className = "bookmark-url";
+        bookmarkURL.textContent = extractHostname(url);
+        bookmarkInfo.appendChild(bookmarkURL);
+
+        button.appendChild(bookmarkInfo);
+
+        var removeButton = document.createElement("button");
+        removeButton.className = "remove-button";
+        removeButton.innerHTML = "&#10005;";
+        removeButton.addEventListener("click", function(index) {
+          return function(event) {
+            event.stopPropagation();
+            bookmarks.splice(index, 1);
+            generateButtons();
+            saveBookmarks();
+          };
+        }(i));
+
+        button.appendChild(removeButton);
+        bookmarkButtons.appendChild(button);
+
+        // Add click event listener to navigate to the website
+        button.addEventListener("click", function(url) {
+          return function() {
+            window.open(url);
+          };
+        }(url));
+      }
+    }
+
+    // Extract hostname from URL
+    function extractHostname(url) {
+      var hostname;
+      // Find and remove protocol (e.g. http, https)
+      if (url.indexOf("://") > -1) {
+        hostname = url.split('/')[2];
+      } else {
+        hostname = url.split('/')[0];
+      }
+      // Remove www prefix
+      hostname = hostname.replace('www.', '');
+      return hostname;
+    }
+
+    // Event listener for form submission
+    document.getElementById("bookmarkForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      var urlInput = document.getElementById("urlInput");
+      var url = urlInput.value.trim();
+
+      if (url !== "") {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+          url = "https://" + url;
+        }
+
+        bookmarks.push({ url: url });
+        urlInput.value = "";
+        generateButtons();
+        saveBookmarks();
+      }
+    });
+
+    // Save bookmarks to local storage
+    function saveBookmarks() {
+      localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+    }
+
+    // Retrieve bookmarks from local storage
+    function getBookmarks() {
+      var storedBookmarks = localStorage.getItem("bookmarks");
+      if (storedBookmarks) {
+        bookmarks = JSON.parse(storedBookmarks);
+        generateButtons();
+      }
+    }
+
+    // Toggle theme
+    function toggleTheme() {
+      var body = document.body;
+      body.classList.toggle("light-theme");
+    }
+
+    // Event listener for theme toggle
+    document.getElementById("themeToggle").addEventListener("change", function() {
+      toggleTheme();
+    });
+
+    // Event listener for row select
+    document.getElementById("rowSelect").addEventListener("change", function(event) {
+      var rowSelect = event.target;
+      var value = rowSelect.value;
+      var bookmarkButtons = document.getElementById("bookmarkButtons");
+      bookmarkButtons.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
+      bookmarkButtons.style.gridGap = "10px";
+
+      switch (value) {
+        case "1":
+          bookmarkButtons.style.gridTemplateColumns = "repeat(1, 1fr)";
+          break;
+        case "2":
+          bookmarkButtons.style.gridTemplateColumns = "repeat(2, 1fr)";
+          break;
+        case "3":
+          bookmarkButtons.style.gridTemplateColumns = "repeat(3, 1fr)";
+          break;
+        case "4":
+          bookmarkButtons.style.gridTemplateColumns = "repeat(4, 1fr)";
+          break;
+        case "5":
+          bookmarkButtons.style.gridTemplateColumns = "repeat(5, 1fr)";
+          break;
+      }
+    });
+
+    // Toggle settings
+    function toggleSettings() {
+      var settings = document.getElementById("settings");
+      settings.classList.toggle("active");
+    }
+
+    // Event listener for settings button
+    document.getElementById("settingsButton").addEventListener("click", function() {
+      toggleSettings();
+    });
+
+    // Initialize the application
+    function initializeApp() {
+      getBookmarks();
+    }
+
+    initializeApp();
+  </script>
+</body>
+</html>
